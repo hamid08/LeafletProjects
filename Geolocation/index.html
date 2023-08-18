@@ -30,6 +30,29 @@
 <!-- leaflet js  -->
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 <script>
+ Point = function(x, y) {
+      this.x = x;
+      this.y = y;
+    }
+    var pointA = new Point(29.622838, 52.534288);
+    var pointB = new Point(29.613926, 52.484949);
+    
+    var numberOfPoints = 20;
+    var points = new Array();
+    
+    for (var i = 0; i < numberOfPoints; i++) {
+      points.push(
+        new Point((Math.abs(pointA.x - pointB.x) / 10) 
+        * i + pointB.y,
+         (Math.abs(pointA.y - pointB.y) / numberOfPoints) * i + pointB.y));
+    }
+    
+    console.log(points);
+
+
+
+
+
     // Map initialization 
     var map = L.map('map').setView([36.637833, 51.480458], 6);
 
@@ -39,38 +62,69 @@
     });
     osm.addTo(map);
 
-    if(!navigator.geolocation) {
-        console.log("Your browser doesn't support geolocation feature!")
-    } else {
-        setInterval(() => {
-            navigator.geolocation.getCurrentPosition(getPosition)
-        }, 5000);
+    var t = new Array();
+
+    for (var point in points) {
+       t.push([points[point].x,points[point].y]);
+
+       console.log(points[point].x);
     }
+    console.log(t);
 
-    var marker, circle;
 
-    function getPosition(position){
-        // console.log(position)
-        var lat = position.coords.latitude
-        var long = position.coords.longitude
-        var accuracy = position.coords.accuracy
+var latlngs = [
+    [45.51, -122.68],
+    [37.77, -122.43],
+    [34.04, -118.2]
+];
 
-        if(marker) {
-            map.removeLayer(marker)
-        }
+console.log(latlngs);
 
-        if(circle) {
-            map.removeLayer(circle)
-        }
+var polyline = L.polyline(t, {color: 'red'}).addTo(map);
 
-        marker = L.marker([lat, long])
-        circle = L.circle([lat, long], {radius: accuracy})
+ map.fitBounds(polyline.getBounds());
 
-        var featureGroup = L.featureGroup([marker, circle]).addTo(map)
 
-        map.fitBounds(featureGroup.getBounds())
 
-        console.log("Your coordinate is: Lat: "+ lat +" Long: "+ long+ " Accuracy: "+ accuracy)
-    }
+
+
+
+
+
+
+
+    // if(!navigator.geolocation) {
+    //     console.log("Your browser doesn't support geolocation feature!")
+    // } else {
+    //     setInterval(() => {
+    //         navigator.geolocation.getCurrentPosition(getPosition)
+    //     }, 5000);
+    // }
+
+    // var marker, circle;
+
+    // function getPosition(position){
+    //     // console.log(position)
+    //     var lat = position.coords.latitude
+    //     var long = position.coords.longitude
+    //     var accuracy = position.coords.accuracy
+
+    //     if(marker) {
+    //         map.removeLayer(marker)
+    //     }
+
+    //     if(circle) {
+    //         map.removeLayer(circle)
+    //     }
+
+    //     marker = L.marker([lat, long])
+    //     circle = L.circle([lat, long], {radius: accuracy})
+
+    //     var featureGroup = L.featureGroup([marker, circle]).addTo(map)
+
+    //     map.fitBounds(featureGroup.getBounds())
+
+    //     console.log("Your coordinate is: Lat: "+ lat +" Long: "+ long+ " Accuracy: "+ accuracy)
+    // }
 
 </script>
