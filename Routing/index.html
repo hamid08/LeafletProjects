@@ -3,6 +3,10 @@
 
 <head>
 	<title>Geolocation</title>
+
+    <!-- https://github.com/perliedman/leaflet-routing-machine -->
+    <!-- https://www.liedman.net/leaflet-routing-machine/api/#l-routing-localization -->
+
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" />
 	<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
 
@@ -23,9 +27,9 @@
 
 	<script>
 
-		var map = L.map('map').setView([28.2380, 83.9956], 11);
+		var map = L.map('map').setView([36.637833, 51.480458], 11);
 		mapLink = "<a href='http://openstreetmap.org'>OpenStreetMap</a>";
-		L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: 'Leaflet &copy; ' + mapLink + ', contribution', maxZoom: 18 }).addTo(map);
+		L.tileLayer('http://map.separta.ir/tile/{z}/{x}/{y}.png', { attribution: 'Leaflet &copy; ' + mapLink + ', contribution', maxZoom: 18 }).addTo(map);
 
 		var taxiIcon = L.icon({
 			iconUrl: 'img/taxi.png',
@@ -34,12 +38,14 @@
 
 		var marker = L.marker([28.2380, 83.9956], { icon: taxiIcon }).addTo(map);
 
+        L.Routing.Localization = 'fa';
+
 		map.on('click', function (e) {
-			console.log(e)
+			console.log("e"+e)
 			var newMarker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
 			L.Routing.control({
 				waypoints: [
-					L.latLng(28.2380, 83.9956),
+					L.latLng(29.547830559724613, 52.601873874664314),
 					L.latLng(e.latlng.lat, e.latlng.lng)
 				]
 			}).on('routesfound', function (e) {
